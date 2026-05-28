@@ -49,7 +49,7 @@ export function MarketCard({ market }: MarketCardProps): JSX.Element {
 
       {/* Footer */}
       <div className="flex items-center justify-between text-xs text-gray-400">
-        <CountdownTimer scheduled_at={market.scheduled_at} label="Starts in" />
+        <CountdownTimer targetDate={market.scheduled_at} label="Starts in" />
         <span>{totalXlm} XLM pooled</span>
       </div>
     </Link>

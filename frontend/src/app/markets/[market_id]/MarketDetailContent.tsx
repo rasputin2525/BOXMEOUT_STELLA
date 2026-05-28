@@ -74,7 +74,7 @@ export default function MarketDetailContent({ market_id }: { market_id: string }
           {market.fighter_a} <span className="text-gray-500">vs</span> {market.fighter_b}
         </h1>
         <p className="text-sm text-gray-400">{market.venue}</p>
-        <CountdownTimer scheduled_at={market.scheduled_at} label="Starts in" />
+        <CountdownTimer targetDate={market.scheduled_at} label="Starts in" />
       </div>
 
       {/* Odds bar + pool sizes */}
