@@ -108,6 +108,12 @@ Desktop.ini
 *.swo
 *~
 
+# ─── AI / IDE workspace files ────────────────────────────────
+.claude/
+.kiro/
+.cursor/
+.aider*
+
 # ─── Misc ────────────────────────────────────────────────────
 *.cache
 .cache/
