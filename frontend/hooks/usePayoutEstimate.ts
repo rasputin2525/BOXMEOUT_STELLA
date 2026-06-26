@@ -1,4 +1,6 @@
-import { BetSide } from "@/lib/api";
+"use client";
+import { useState, useEffect, useRef } from "react";
+import { BetSide, fetchPayoutEstimate } from "@/lib/api";
 
 export interface UsePayoutEstimateResult {
   estimate: bigint | null;
@@ -15,5 +17,39 @@ export function usePayoutEstimate(
   side: BetSide | null,
   amount: bigint | null
 ): UsePayoutEstimateResult {
-  throw new Error("Not implemented");
+  const [estimate, setEstimate] = useState<bigint | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    if (!side || !amount || amount === 0n) {
+      setEstimate(null);
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    timeoutRef.current = setTimeout(async () => {
+      try {
+        const result = await fetchPayoutEstimate(market_id, side, amount);
+        setEstimate(result);
+      } catch (error) {
+        setEstimate(null);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 300);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [market_id, side, amount]);
+
+  return { estimate, isLoading };
 }
